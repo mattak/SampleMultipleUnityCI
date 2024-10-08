@@ -19,13 +19,15 @@ jobs:
 
     - name: Run dotnet format for Project1
       run: |
+        set -e
         dotnet --version
         dotnet format --version
+        set +e
 
         if git diff --name-only HEAD..main | grep -E '\.cs$' > /dev/null; then
           echo "C# files changed, execute format:"
           git diff --name-only HEAD..main | grep -E '\.cs$' 
-          git diff --name-only HEAD..main | grep -E '.cs$' | perl -pe 'chomp; $_ .= "," unless eof' | xargs -I{} dotnet format whitespace ./Project1/Assets/Scripts --folder --verify-no-changes --verbosity diagnostic --include "{}"
+          git diff --name-only HEAD..main | grep -E '\.cs$' | perl -pe 'chomp; $_ .= "," unless eof' | xargs -I{} dotnet format whitespace ./Project1/Assets/Scripts --folder --verify-no-changes --verbosity diagnostic --include "{}"
         else
           echo "No C# files changed, skipping format"
           exit 0
