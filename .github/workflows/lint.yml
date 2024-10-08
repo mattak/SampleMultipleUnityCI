@@ -1,0 +1,25 @@
+name: Lint C# Code
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Install dotnet-format
+      run: dotnet tool install -g dotnet-format
+
+    - name: Run dotnet format for Project1
+    - run: |
+       git show --name-only --pretty="" | grep -E '.cs$' | perl -pe 'chomp; $_ .= "," unless eof' | xargs -I{} dotnet-format whitespace ./Project1/Assets/Scripts --folder --verify-no-changes --verbosity diagnostic --include "{}"
