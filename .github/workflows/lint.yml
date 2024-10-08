@@ -16,7 +16,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: Fetch branch
       run: |
-        git fetch origin ${{base_branch}}:${{base_branch}}
+        git fetch origin $base_branch:$base_branch
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -30,10 +30,10 @@ jobs:
         dotnet format --version
         set +e
 
-        if git diff --name-only HEAD..${{base_branch}} | grep -E '\.cs$' > /dev/null; then
+        if git diff --name-only HEAD..$base_branch | grep -E '\.cs$' > /dev/null; then
           echo "C# files changed, execute format:"
-          git diff --name-only HEAD..${{base_branch}} | grep -E '\.cs$' 
-          git diff --name-only HEAD..${{base_branch}} | grep -E '\.cs$' | perl -pe 'chomp; $_ .= "," unless eof' | xargs -I{} dotnet format whitespace ./Project1/Assets/Scripts --folder --verify-no-changes --verbosity diagnostic --include "{}"
+          git diff --name-only HEAD..$base_branch | grep -E '\.cs$' 
+          git diff --name-only HEAD..$base_branch | grep -E '\.cs$' | perl -pe 'chomp; $_ .= "," unless eof' | xargs -I{} dotnet format whitespace ./Project1/Assets/Scripts --folder --verify-no-changes --verbosity diagnostic --include "{}"
         else
           echo "No C# files changed, skipping format"
           exit 0
