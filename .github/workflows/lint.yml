@@ -22,11 +22,10 @@ jobs:
         dotnet --version
         dotnet format --version
 
-        if git show --name-only --pretty="" | grep -E '\.cs$' > /dev/null; then
-          git show --name-only
+        if git diff --name-only HEAD..main | grep -E '\.cs$' > /dev/null; then
           echo "C# files changed, execute format:"
-          git show --name-only --pretty="" | grep -E '\.cs$' 
-          git show --name-only --pretty="" | grep -E '.cs$' | perl -pe 'chomp; $_ .= "," unless eof' | xargs -I{} dotnet format whitespace ./Project1/Assets/Scripts --folder --verify-no-changes --verbosity diagnostic --include "{}"
+          git diff --name-only HEAD..main | grep -E '\.cs$' 
+          git diff --name-only HEAD..main | grep -E '.cs$' | perl -pe 'chomp; $_ .= "," unless eof' | xargs -I{} dotnet format whitespace ./Project1/Assets/Scripts --folder --verify-no-changes --verbosity diagnostic --include "{}"
         else
           echo "No C# files changed, skipping format"
           exit 0
