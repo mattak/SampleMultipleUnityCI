@@ -22,5 +22,12 @@ jobs:
 
     - name: Run dotnet format for Project1
       run: |
-       git show --name-only --pretty="" | grep -E '.cs$' | perl -pe 'chomp; $_ .= "," unless eof' | xargs -I{} dotnet-format whitespace ./Project1/Assets/Scripts --folder --verify-no-changes --verbosity diagnostic --include "{}"
+        if git show --name-only --pretty="" | grep -E '\.cs$' > /dev/null; then
+         git show --name-only --pretty="" | grep -E '.cs$' | 
+           perl -pe 'chomp; $_ .= "," unless eof' | 
+           xargs -I{} dotnet-format whitespace ./Project1/Assets/Scripts --folder --verify-no-changes --verbosity diagnostic --include "{}"
+        else
+          echo "No C# files changed, skipping format"
+          exit 0
+        fi
 
