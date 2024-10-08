@@ -14,9 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
     - name: Fetch branch
       run: |
-        git fetch origin $base_branch:$base_branch
+        git fetch origin $base_branch
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
