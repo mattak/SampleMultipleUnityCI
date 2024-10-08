@@ -27,10 +27,11 @@ jobs:
 
     - name: Run dotnet format for Project1
       run: |
-        set -e
+        set -x
         dotnet --version
         dotnet format --version
-        set +e
+        git diff --name-only HEAD..$base_branch
+        set +x
 
         if git diff --name-only HEAD..$base_branch | grep -E '\.cs$' > /dev/null; then
           echo "C# files changed, execute format:"
