@@ -21,5 +21,6 @@ jobs:
       run: dotnet tool install -g dotnet-format
 
     - name: Run dotnet format for Project1
-    - run: |
+      run: |
        git show --name-only --pretty="" | grep -E '.cs$' | perl -pe 'chomp; $_ .= "," unless eof' | xargs -I{} dotnet-format whitespace ./Project1/Assets/Scripts --folder --verify-no-changes --verbosity diagnostic --include "{}"
+
